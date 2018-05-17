@@ -1,0 +1,9 @@
+participant-ID male av/car perspective scenario numb_childrenL numb_adultL numb_adultR left_first selected_option difficulty_of_decision response_time1 response_time2
+776321444 False True 0 0 0 1 5 False Zweiteres 80 17.46465 6.829727
+776321444 False True 0 0 0 0 1 False Ersteres 100 7.15097 2.477478
+776321444 False True 0 0 2 1 5 False Ersteres 39 3.281799 4.45874
+776321444 False True 0 3 0 2 0 False Zweiteres 100 7.830566 1.540924
+776321444 False True 0 1 0 1 2 False Zweiteres 100 5.59082 1.703064
+776321444 False True 0 1 0 2 4 True Ersteres 98 7.882874 1.913086
+776321444 False True 0 0 1 1 3 True Ersteres 42 5.645691 3.736938
+776321444 False True 0 2 0 2 0 False Zweiteres 65 2.762268 1.973694
