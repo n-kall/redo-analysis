@@ -54,7 +54,7 @@ child.sub$perspective <- factor(child.sub$perspective,
                                            "PedSmall",
                                            "PedLarge"))
 
-child.sub$age_c <- scale(child.sub$age, scale = FALSE)
+child.sub$age_c <- scale(child.sub$age)
 
                                         # set variables to correct type
 
@@ -106,7 +106,7 @@ child_glmm_cov <- mixed(decision ~ perspective + motorist +
                         trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
-                    method = "LRT",
+                    method = "PB",
                     family = "binomial", data = child.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -117,7 +117,7 @@ child_glmm_cov <- mixed(decision ~ perspective + motorist +
 child_glmm_identify_base <- mixed(decision ~ perceivedIden + motorist +
                         perceivedIden:motorist + trial +
                         (1 | participant.ID),
-                    method = "LRT",
+                    method = "PB",
                     family = "binomial", data = child.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -131,7 +131,7 @@ child_glmm_identify_cov <- mixed(decision ~ perceivedIden + motorist +
                         trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
-                    method = "LRT",
+                    method = "PB",
                     family = "binomial", data = child.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -158,4 +158,4 @@ stopCluster(cl)
 ##                               type = 'response')
 
 
-save.image(file = "vr_child_glmm_redo.RData")
+save.image(file = "vr_child_glmm_redo_bootstrap.RData")

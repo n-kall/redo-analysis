@@ -89,7 +89,7 @@ carsac.sub$perspective <- combineLevels(
     levs=c("PedLarge", "PedSmall"),
     newLabel = "Pedestrian")
 
-carsac.sub$age_c <- scale(carsac.sub$age, scale = FALSE)
+carsac.sub$age_c <- scale(carsac.sub$age)
 
 (nc <- detectCores())
 cl <- makeCluster(rep("localhost", nc))
@@ -108,7 +108,7 @@ carsac_glmm_cov <- mixed(decision ~ perspective + motorist +
                         trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
-                    method = "LRT", # change to PB for final
+                    method = "PB", # change to PB for final
                     family = "binomial", data = carsac.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -119,7 +119,7 @@ carsac_glmm_identify_base <- mixed(decision ~ perceivedIden + motorist +
                         trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
-                    method = "LRT", # change to PB for final
+                    method = "PB", # change to PB for final
                     family = "binomial", data = carsac.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -131,7 +131,7 @@ carsac_glmm_identify_cov <- mixed(decision ~ perceivedIden + motorist +
                         trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
-                    method = "LRT", # change to PB for final
+                    method = "PB", # change to PB for final
                     family = "binomial", data = carsac.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
@@ -157,4 +157,4 @@ stopCluster(cl)
 ##                                type = 'response')
 
 
-save.image(file = "vr_carsac_glmm_redo.RData")
+save.image(file = "vr_carsac_glmm_redo_bootstrap.RData")
