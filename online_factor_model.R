@@ -156,9 +156,9 @@ save.image('online_study_carped_redo.RData')
 pedped_cov_fac_glmm <- mixed(response ~ ratio_f * perspective * motorist +
                          ratio_f * scenario * motorist + first_anim +
                          better_place + knowledge_of_av +
-                         (1 + ratio_f + scenario | participant),
+                         (1 + scenario | participant),
                      family = "binomial", data = pedped.sub,
-                     method = "LRT", # change this to PB for final?
+                     method = "PB", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -166,9 +166,9 @@ pedped_cov_fac_glmm <- mixed(response ~ ratio_f * perspective * motorist +
 
 pedped_base_fac_iden_glmm <- mixed(response ~ ratio_f * identify * motorist +
                          ratio_f * scenario * motorist +
-                         (1 + ratio_f + scenario | participant),
+                         (1 + scenario | participant),
                      family = "binomial", data = pedped.sub,
-                     method = "LRT", # change this to PB for final?
+                     method = "PB", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -176,9 +176,9 @@ pedped_base_fac_iden_glmm <- mixed(response ~ ratio_f * identify * motorist +
 pedped_cov_fac_iden_glmm <- mixed(response ~ ratio_f * identify * motorist +
                          ratio_f * scenario * motorist + first_anim +
                          better_place + knowledge_of_av +
-                         (1 + ratio_f + scenario | participant),
+                         (1 + scenario | participant),
                      family = "binomial", data = pedped.sub,
-                     method = "LRT", # change this to PB for final?
+                     method = "PB", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
