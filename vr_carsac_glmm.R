@@ -116,8 +116,7 @@ carsac_glmm_cov <- mixed(decision ~ perspective + motorist +
 
 carsac_glmm_identify_base <- mixed(decision ~ perceivedIden + motorist +
                         perceivedIden:motorist +
-                        trial + gender + age_c + opinAV +
-                        education +  drivExperience + visImpairment +
+                        trial +
                         (1 | participant.ID),
                     method = "PB", # change to PB for final
                     family = "binomial", data = carsac.sub,
