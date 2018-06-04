@@ -18,7 +18,7 @@ require(catspec)
 require(data.table)
 
 
-data <- read.csv("online_accept_data/raw/online_accept_data_clean.csv", fileEncoding="UTF16")
+data <- read.csv("online_data.csv", fileEncoding="UTF16")
 
 
 setnames(data, "exp_subject_id", "participant")
@@ -83,12 +83,13 @@ data.clean <- subset(data.clean, select = c("participant",
 data.clean <- droplevels(data.clean)
 
 data.use <- merge(questions.sub, data.clean)
+
 data.use[ data.use == "" ] <- NA
 data.use <- droplevels(data.use)
 
 
 
-carped.sub <- subset(data, scenario == "carsac")
+carped.sub <- subset(data.use, scenario == "carsac")
 carped.sub$ratio_f <- ordered(carped.sub$ratio)
 carped.sub$ratio_c <- as.numeric(carped.sub$ratio)
 carped.sub <- droplevels(carped.sub)
@@ -98,7 +99,7 @@ carped.sub$perspective <- combineLevels(carped.sub$perspective,
                                         newLabel = c("pedestrian"))
 
 
-pedped.sub <- subset(data, (scenario == "road" | scenario == "sidewalk"))
+pedped.sub <- subset(data.use, (scenario == "road" | scenario == "sidewalk"))
 
 
 pedped.sub$ratio_f <- ordered(pedped.sub$ratio)
@@ -116,7 +117,7 @@ carped_cov_fac_glmm <- mixed(response ~ ratio_f * perspective * motorist +
                           knowledge_of_av +
                          (1 | participant),
                      family = "binomial", data = carped.sub,
-                     method = "PB",
+                     method = "LRT",
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -129,7 +130,7 @@ carped_base_fac_iden_base <- mixed(response ~ ratio_f * identify * motorist +
                           knowledge_of_av +
                          (1 | participant),
                      family = "binomial", data = carped.sub,
-                     method = "PB",
+                     method = "LRT",
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -142,7 +143,7 @@ carped_cov_fac_iden_glmm <- mixed(response ~ ratio_f * identify * motorist +
                           knowledge_of_av +
                          (1 | participant),
                      family = "binomial", data = carped.sub,
-                     method = "PB", # change this to PB for final?
+                     method = "LRT", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -158,7 +159,7 @@ pedped_cov_fac_glmm <- mixed(response ~ ratio_f * perspective * motorist +
                          better_place + knowledge_of_av +
                          (1 + scenario | participant),
                      family = "binomial", data = pedped.sub,
-                     method = "PB", # change this to PB for final?
+                     method = "LRT", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
@@ -168,7 +169,7 @@ pedped_base_fac_iden_glmm <- mixed(response ~ ratio_f * identify * motorist +
                          ratio_f * scenario * motorist +
                          (1 + scenario | participant),
                      family = "binomial", data = pedped.sub,
-                     method = "PB", # change this to PB for final?
+                     method = "LRT", # change this to PB for final?
                      args_test = list(nsim = 1000, cl = cl), cl = cl,
                      control = glmerControl(optimizer = "bobyqa",
                                             optCtrl = list(maxfun = 2e5)))
