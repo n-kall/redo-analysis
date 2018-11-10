@@ -1,3 +1,40 @@
+library(tidyverse)
+library(afex)
+library(emmeans)
+library(cowplot)
+library(ggpubr)
+
+load("vr_carsac_glmm_redo_bootstrap.RData")
+load("vr_child_glmm_redo_bootstrap.RData")
+load("vr_sidewalk_glmm_redo_bootstrap.RData")
+
+
+child_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial +
+                        gender + age_c + opinAV +
+                        education +  drivExperience + visImpairment +
+                        (1 | participant.ID),
+                    method = "KR", # change to PB for final
+                    data = child.sub,
+                     cl = cl)
+
+carsac_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial +
+                        gender + age_c + opinAV +
+                        education +  drivExperience + visImpairment +
+                        (1 | participant.ID),
+                    method = "KR", # change to PB for final
+                    data = carsac.sub,
+                     cl = cl)
+
+sidewalk_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial +
+                        gender + age_c + opinAV +
+                        education +  drivExperience + visImpairment +
+                        (1 | participant.ID),
+                    method = "KR", # change to PB for final
+                    data = sidewalk.sub,
+                     cl = cl)
+
+
+
 
 sidewalk_dec <- as_tibble(emmeans(sidewalk_glmm_cov, ~ perspective|motorist, type = "response"))
 
@@ -41,19 +78,14 @@ sidewalk_plot <- sidewalk_conf %>%
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean (95% CI) confidence in decision",
+        name = "Predicted mean confidence in decision (95% CI)",
         labels = c("Endanger more pedestrians (adults / on road)",
                    "Endanger fewer pedestrians (children / on sidewalk)")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
-    theme_cowplot(font_size = 9) + theme(legend.position = "bottom",
+    theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
                          legend.direction = "vertical")
 
-
-
-
-motorist_names <- c("self-driving" = "Self-driving car",
-                    "human" = "Human driver")
 
 
 child_dec <- as_tibble(emmeans(child_glmm_cov, ~ perspective|motorist, type = "response"))
@@ -65,11 +97,13 @@ child_conf$prob <- child_dec$prob
 child_conf  <-  mutate(child_conf, prob = ifelse(decision == "hitChildren",
                                        -1 * (prob), 1 - prob))
 
+child_conf$decision <- factor(child_conf$decision,
+                              levels = rev(levels(child_conf$decision)))
 
 child_plot  <- child_conf %>%
-    mutate(emmean = ifelse(decision == "hitAdults", -1 * emmean, emmean),
-           lower.CL = ifelse(decision == "hitAdults", -1 * lower.CL, lower.CL),
-           upper.CL = ifelse(decision == "hitAdults", -1 * upper.CL, upper.CL)) %>%
+    mutate(emmean = ifelse(decision == "hitChildren", -1 * emmean, emmean),
+           lower.CL = ifelse(decision == "hitChildren", -1 * lower.CL, lower.CL),
+           upper.CL = ifelse(decision == "hitChildren", -1 * upper.CL, upper.CL)) %>%
     ggplot(mapping = aes(x = perspective)) +
     geom_bar(aes(y = prob * 100, fill = decision), stat = "identity", color = "black") +
     geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL, width = 0.1)) +
@@ -83,10 +117,10 @@ child_plot  <- child_conf %>%
                      labels = c("Pedestrian\n with adults",
                                 "Pedestrian\n with children",
                                 "Passenger", "Bystander")) +
-    scale_fill_manual(        values = c("#A50F15", "#FB6A4A"),
+    scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
                               name = "Predicted probability of decision",
-                      labels = c("Endanger more pedestrians (adults / on road)",
-                                 "Endanger fewer pedestrians (children / on sidewalk)")) +
+                      labels = c("Endanger fewer pedestrians (children / on sidewalk)",
+                                 "Endanger more pedestrians (adults / on road)")) +
     scale_y_continuous(name = "Confidence", limits = c(-112,112),
                        sec.axis = sec_axis(
                            ~., name = "Probability",
@@ -94,21 +128,20 @@ child_plot  <- child_conf %>%
                                       labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean (95% CI) confidence in decision",
+        name = "Predicted mean confidence in decision (95% CI)",
         labels = c("Endanger fewer pedestrians (children / on sidewalk)",
                    "Endanger more pedestrians (adults / on road)")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
-    theme_cowplot(font_size = 9) + theme(legend.position = "bottom",
+    theme_cowplot(font_size = 10) + theme(legend.position = "none",
                          legend.direction = "vertical")
 
 
-child_sidewalk.plot <- ggarrange(child_plot, sidewalk_plot, common.legend = TRUE,
+child_sidewalk.plot <- ggarrange(child_plot, sidewalk_plot,
+                                 common.legend = TRUE,
                                  nrow = 2,
-                                 legend = "bottom", labels = c("A", "B"))
-
-
-
+                                 hjust = -5,
+                                 legend = "bottom", labels = c("A", "B"), align = "v")
 
 
 
@@ -132,6 +165,8 @@ carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "self
                                        -1 * (1-prob), prob))
 
 
+carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
+
 carsac_cliff_plot  <- carsac_cliff_conf %>%
     mutate(emmean = ifelse(decision == "selfSacrifice", -1 * emmean, emmean),
            lower.CL = ifelse(decision == "selfSacrifice", -1 * lower.CL, lower.CL),
@@ -150,26 +185,22 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
                                 "Passenger", "Bystander")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
-        labels = c("Endanger car occupants",
-                   "Endanger pedestrians on road")) +
+        labels = c("Endanger pedestrians on road",
+                   "Endanger car occupants")) +
     scale_y_continuous(name = "Confidence", limits = c(-112,112),
                        sec.axis = sec_axis(
                            ~., name = "Probability",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
-        values = c(22, 15),
-        name = "Predicted mean (95% CI) confidence in decision",
-        labels = c("Endanger fewer pedestrians",
-                   "Endanger more pedestrians")) +
+        values = c(15, 22),
+        name = "Predicted mean confidence in decision (95% CI)",
+        labels = c("Endanger pedestrians on road",
+                   "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
-    theme_cowplot(font_size = 9) + theme(legend.position = "bottom",
+    theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
                          legend.direction = "vertical")
-
-
-
-
 
 
 
@@ -181,6 +212,9 @@ carsac_van_conf$prob <- carsac_van_dec$prob
 
 carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacrifice",
                                        -1 * (1-prob), prob))
+
+
+carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
 
 
 carsac_van_plot  <- carsac_van_conf %>%
@@ -201,34 +235,36 @@ carsac_van_plot  <- carsac_van_conf %>%
                                 "Passenger", "Bystander")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
-        labels = c("Endanger car occupants",
-                   "Endanger pedestrians on road")) +
+        labels = c("Endanger pedestrians on road",
+                   "Endanger car occupants")) +
     scale_y_continuous(name = "Confidence", limits = c(-112,112),
                        sec.axis = sec_axis(
                            ~., name = "Probability",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
-        values = c(22, 15),
-        name = "Predicted mean (95% CI) confidence in decision",
-        labels = c("Endanger car occupants",
-                   "Endanger pedestrians on road")) +
+        values = c(15, 22),
+        name = "Predicted mean confidence in decision (95% CI)",
+        labels = c("Endanger pedestrians on road",
+                   "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
-    theme_cowplot(font_size = 9) + theme(legend.position = "bottom",
-                         legend.direction = "vertical")
+    theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
+                         legend.direction = "vertical") + theme(legend.position="none")
 
 
 carsac_joint.plot <- ggarrange(carsac_van_plot,
                                carsac_cliff_plot,
                                labels = c("C", "D"),
                                nrow = 2,
+                               align = "v",
+                               hjust = -5,
                                common.legend = TRUE, legend = "bottom")
 
 vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
 
 # save as pdf
-pdf('vr_combined_pred_plot.pdf', width = 12, height = 12)
+pdf('vr_combined_pred_plot.pdf', width = 14, height = 14)
 vr_combined_pred.plot
 dev.off()
