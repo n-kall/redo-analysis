@@ -14,12 +14,11 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
   ylim(0, 1) + geom_bar(stat="identity", aes(fill=perspective)) +
   geom_line(aes(group=perspective)) +
   geom_point(size = 0.5) +
-  scale_fill_brewer(name = "Perspective",
-                    palette = 6, type = "qual",
+  scale_fill_manual(name = "Perspective",
+                    values = c("#FB8072", "#80B1D3", "#FDB462", "#B3DE69"),
                     labels = c("Car occupant",
                                "Observer",
-                               "Pedestrian (forward)",
-                               "Pedestrian (side)")) +
+                               "Pedestrian")) +
   theme(strip.text.y = element_blank(),
         panel.grid = element_blank())
 
@@ -37,8 +36,8 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
   ylim(0, 1) + geom_bar(stat="identity", aes(fill=perspective)) +
   geom_line(aes(group=perspective)) +
   geom_point(size = 0.5) +
-  scale_fill_brewer(name = "Perspective",
-                    palette = 6, type = "qual",
+  scale_fill_manual(name = "Perspective",
+                    values = c("#FB8072", "#80B1D3", "#FDB462", "#B3DE69"),
                     labels = c("Car occupant",
                                "Observer",
                                "Pedestrian (forward)",
