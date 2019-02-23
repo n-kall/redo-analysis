@@ -66,21 +66,21 @@ sidewalk_plot <- sidewalk_conf %>%
                      limits = rev(levels(sidewalk_conf$perspective)),
                      labels = c("Pedestrian\non road",
                                 "Pedestrian\non sidewalk",
-                                "Passenger", "Bystander")) +
+                                "Passenger", "Observer")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
                               name = "Predicted probability of decision",
-        labels = c("Endanger fewer pedestrians",
-                   "Endanger more pedestrians", "", "")) +
-    scale_y_continuous(name = "Confidence", limits = c(-112,112),
+        labels = c("Endanger fewer pedestrians (on sidewalk)",
+                   "Endanger more pedestrians (on road)", "", "")) +
+    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability",
+                           ~., name = "Probability of decision",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
         name = "Predicted mean confidence in decision (95% CI)",
-        labels = c("Endanger more pedestrians (adults / on road)",
-                   "Endanger fewer pedestrians (children / on sidewalk)")) +
+        labels = c("Endanger more pedestrians (on road)",
+                   "Endanger fewer pedestrians (on sidewalk)")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
     theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
@@ -116,21 +116,21 @@ child_plot  <- child_conf %>%
                      limits = rev(levels(child_conf$perspective)),
                      labels = c("Pedestrian\n with adults",
                                 "Pedestrian\n with children",
-                                "Passenger", "Bystander")) +
+                                "Passenger", "Observer")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
                               name = "Predicted probability of decision",
-                      labels = c("Endanger fewer pedestrians (children / on sidewalk)",
-                                 "Endanger more pedestrians (adults / on road)")) +
-    scale_y_continuous(name = "Confidence", limits = c(-112,112),
+                      labels = c("Endanger fewer pedestrians (children)",
+                                 "Endanger more pedestrians (adults)")) +
+    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability",
+                           ~., name = "Probability of decision",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                                       labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
         name = "Predicted mean confidence in decision (95% CI)",
-        labels = c("Endanger fewer pedestrians (children / on sidewalk)",
-                   "Endanger more pedestrians (adults / on road)")) +
+        labels = c("Endanger fewer pedestrians (children)",
+                   "Endanger more pedestrians (adults)")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
     theme_cowplot(font_size = 10) + theme(legend.position = "none",
@@ -138,7 +138,7 @@ child_plot  <- child_conf %>%
 
 
 child_sidewalk.plot <- ggarrange(child_plot, sidewalk_plot,
-                                 common.legend = TRUE,
+                                 common.legend = FALSE,
                                  nrow = 2,
                                  hjust = -5,
                                  legend = "bottom", labels = c("A", "B"), align = "v")
@@ -182,14 +182,14 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_cliff_conf$perspective)),
                      labels = c("Pedestrian\non road",
-                                "Passenger", "Bystander")) +
+                                "Passenger", "Observer")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
-    scale_y_continuous(name = "Confidence", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability",
+                           ~., name = "Probability of decision",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
@@ -232,14 +232,14 @@ carsac_van_plot  <- carsac_van_conf %>%
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_van_conf$perspective)),
                      labels = c("Pedestrian\non road",
-                                "Passenger", "Bystander")) +
+                                "Passenger", "Observer")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
-    scale_y_continuous(name = "Confidence", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability",
+                           ~., name = "Probability of decision",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
@@ -259,7 +259,7 @@ carsac_joint.plot <- ggarrange(carsac_van_plot,
                                nrow = 2,
                                align = "v",
                                hjust = -5,
-                               common.legend = TRUE, legend = "bottom")
+                               common.legend = FALSE, legend = "bottom")
 
 vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
@@ -268,3 +268,4 @@ vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 pdf('vr_combined_pred_plot.pdf', width = 14, height = 14)
 vr_combined_pred.plot
 dev.off()
+
