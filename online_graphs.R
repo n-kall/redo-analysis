@@ -5,7 +5,9 @@ library(cowplot)
 load("online_study_redo2.RData")
 
 motorist_names <- c("self-driving" = "Self-driving car",
-                    "human" = "Human driver")
+                    "human" = "Human driver",
+                    "road" = "Road",
+                    "sidewalk" = "Sidewalk")
 
 a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
            type = "response") +
@@ -26,7 +28,7 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
   theme(strip.text.x = element_blank(),
         panel.grid = element_blank(),
         axis.text = element_text(size = 8),
-        axis.title = element_text(size = 12)) 
+        axis.title = element_text(size = 12))
 
 a$layers[[1]] <- NULL
 a
@@ -34,9 +36,9 @@ a
 ggsave("online_carped.pdf", plot = a, width = 7, height = 4)
 
 
-b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
+b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
       type = "response") +
-  facet_grid(motorist ~ perspective, labeller = as_labeller(motorist_names)) +
+  facet_grid(scenario ~ motorist ~ perspective, labeller = as_labeller(motorist_names)) +
   xlab("Lives-at-risk") +
   ylab("Probability of preferring swerve") +
   ylim(0, 1) + 
@@ -60,6 +62,6 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
 b$layers[[1]] <- NULL
 b
 
-ggsave("online_pedped.pdf", plot = b, height = 4,
-       width = 10)
+ggsave("online_pedped.pdf", plot = b, height = 10,
+       width = 13)
 
