@@ -50,6 +50,11 @@ sidewalk_conf  <-  mutate(sidewalk_conf, prob = ifelse(decision == "hitSidewalk"
                                        -1 * (1-prob), prob))
 
 
+levels(sidewalk_conf$motorist) <- rev(levels(sidewalk_conf$motorist))
+sidewalk_conf$perspective = factor(sidewalk_conf$perspective,
+                                   levels(sidewalk_conf$perspective)[c(2, 1, 3, 4)])
+
+
 sidewalk_plot <- sidewalk_conf %>%
     mutate(emmean = ifelse(decision == "hitSidewalk", -1 * emmean, emmean),
            lower.CL = ifelse(decision == "hitSidewalk", -1 * lower.CL, lower.CL),
@@ -60,13 +65,13 @@ sidewalk_plot <- sidewalk_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ ., labeller = as_labeller(motorist_names)) +
+    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(sidewalk_conf$perspective)),
                      labels = c("Pedestrian\non road",
                                 "Pedestrian\non sidewalk",
-                                "Passenger", "Observer")) +
+                                "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
                               name = "Predicted probability of decision",
         labels = c("Endanger fewer pedestrians (on sidewalk)",
@@ -100,6 +105,11 @@ child_conf  <-  mutate(child_conf, prob = ifelse(decision == "hitChildren",
 child_conf$decision <- factor(child_conf$decision,
                               levels = rev(levels(child_conf$decision)))
 
+levels(child_conf$motorist) <- rev(levels(child_conf$motorist))
+child_conf$perspective = factor(child_conf$perspective,
+                                   levels(child_conf$perspective)[c(2, 1, 3, 4)])
+
+
 child_plot  <- child_conf %>%
     mutate(emmean = ifelse(decision == "hitChildren", -1 * emmean, emmean),
            lower.CL = ifelse(decision == "hitChildren", -1 * lower.CL, lower.CL),
@@ -110,13 +120,13 @@ child_plot  <- child_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ ., labeller = as_labeller(motorist_names)) +
+    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(child_conf$perspective)),
                      labels = c("Pedestrian\n with adults",
                                 "Pedestrian\n with children",
-                                "Passenger", "Observer")) +
+                                "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
                               name = "Predicted probability of decision",
                       labels = c("Endanger fewer pedestrians (children)",
@@ -140,7 +150,8 @@ child_plot  <- child_conf %>%
 child_sidewalk.plot <- ggarrange(child_plot, sidewalk_plot,
                                  common.legend = FALSE,
                                  nrow = 2,
-                                 hjust = -5,
+                                 hjust = -2,
+                                 vjust = 1.5,
                                  legend = "bottom", labels = c("A", "B"), align = "v")
 
 
@@ -166,6 +177,11 @@ carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "self
 
 
 carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
+levels(carsac_cliff_conf$motorist) <- rev(levels(carsac_cliff_conf$motorist))
+carsac_cliff_conf$perspective = factor(carsac_cliff_conf$perspective,
+                                levels(carsac_cliff_conf$perspective)[c(2, 1, 3)])
+
+
 
 carsac_cliff_plot  <- carsac_cliff_conf %>%
     mutate(emmean = ifelse(decision == "selfSacrifice", -1 * emmean, emmean),
@@ -177,12 +193,12 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ ., labeller = as_labeller(motorist_names)) +
+    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_cliff_conf$perspective)),
                      labels = c("Pedestrian\non road",
-                                "Passenger", "Observer")) +
+                                "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
         labels = c("Endanger pedestrians on road",
@@ -215,6 +231,9 @@ carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacr
 
 
 carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
+levels(carsac_van_conf$motorist) <- rev(levels(carsac_van_conf$motorist))
+carsac_van_conf$perspective = factor(carsac_van_conf$perspective,
+                                levels(carsac_van_conf$perspective)[c(2, 1, 3)])
 
 
 carsac_van_plot  <- carsac_van_conf %>%
@@ -227,12 +246,12 @@ carsac_van_plot  <- carsac_van_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ ., labeller = as_labeller(motorist_names)) +
+    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_van_conf$perspective)),
                      labels = c("Pedestrian\non road",
-                                "Passenger", "Observer")) +
+                                "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of decision",
         labels = c("Endanger pedestrians on road",
@@ -258,14 +277,27 @@ carsac_joint.plot <- ggarrange(carsac_van_plot,
                                labels = c("C", "D"),
                                nrow = 2,
                                align = "v",
-                               hjust = -5,
+                               hjust = -2,
+                               vjust = 1.5,
                                common.legend = FALSE, legend = "bottom")
 
 vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
 
 # save as pdf
-pdf('vr_combined_pred_plot.pdf', width = 14, height = 14)
+pdf('vr_combined_pred_plot.pdf', width = 12, height = 12)
 vr_combined_pred.plot
 dev.off()
 
+# tables
+
+child_lmm_followup <- emmeans(child_lmm_cov, pairwise ~ perspective | decision)
+
+
+sidewalk_lmm_followup <- emmeans(sidewalk_lmm_cov, pairwise ~ decision)
+
+carsac_glmm_followup <- emmeans(carsac_glmm_cov, pairwise ~ trial, type = "response")
+
+carsac_lmm_trial_followup <- emmeans(carsac_lmm_cov, pairwise ~ trial)
+
+carsac_lmm_decision_followup <- emmeans(carsac_lmm_cov, pairwise ~ decision)

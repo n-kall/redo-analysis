@@ -114,5 +114,11 @@ carped_followup <- emmeans(carped_cov_fac_glmm, trt.vs.ctrl ~ ratio_f | perspect
 carped_ident_followup <- emmeans(carped_cov_fac_iden_glmm, trt.vs.ctrl ~ ratio_f | motorist,
                            type = "response")
 
+carped_ident_followup2 <- emmeans(carped_cov_fac_iden_glmm, pairwise ~ identify | ratio_f | motorist,
+                                  type = "response")
+
+
 pedped_follup <- emmeans(pedped_cov_fac_glmm, trt.vs.ctrl ~ ratio_f | perspective | motorist,
                          type = "response")
+
+pedped_sidewalk_followup <- emmeans(pedped_cov_fac_glmm, pairwise ~ scenario)
