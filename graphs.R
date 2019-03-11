@@ -50,7 +50,9 @@ sidewalk_conf  <-  mutate(sidewalk_conf, prob = ifelse(decision == "hitSidewalk"
                                        -1 * (1-prob), prob))
 
 
-levels(sidewalk_conf$motorist) <- rev(levels(sidewalk_conf$motorist))
+sidewalk_conf$motorist <- factor(sidewalk_conf$motorist, 
+                                 levels(sidewalk_conf$motorist)[c(2,1)])
+
 sidewalk_conf$perspective = factor(sidewalk_conf$perspective,
                                    levels(sidewalk_conf$perspective)[c(2, 1, 3, 4)])
 
@@ -105,7 +107,10 @@ child_conf  <-  mutate(child_conf, prob = ifelse(decision == "hitChildren",
 child_conf$decision <- factor(child_conf$decision,
                               levels = rev(levels(child_conf$decision)))
 
-levels(child_conf$motorist) <- rev(levels(child_conf$motorist))
+child_conf$motorist <- factor(child_conf$motorist, 
+                                 levels(child_conf$motorist)[c(2,1)])
+
+
 child_conf$perspective = factor(child_conf$perspective,
                                    levels(child_conf$perspective)[c(2, 1, 3, 4)])
 
@@ -177,7 +182,11 @@ carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "self
 
 
 carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
-levels(carsac_cliff_conf$motorist) <- rev(levels(carsac_cliff_conf$motorist))
+
+carsac_cliff_conf$motorist <- factor(carsac_cliff_conf$motorist, 
+                                 levels(carsac_cliff_conf$motorist)[c(2,1)])
+
+
 carsac_cliff_conf$perspective = factor(carsac_cliff_conf$perspective,
                                 levels(carsac_cliff_conf$perspective)[c(2, 1, 3)])
 
@@ -231,7 +240,10 @@ carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacr
 
 
 carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
-levels(carsac_van_conf$motorist) <- rev(levels(carsac_van_conf$motorist))
+
+carsac_van_conf$motorist <- factor(carsac_van_conf$motorist, 
+                                     levels(carsac_van_conf$motorist)[c(2,1)])
+
 carsac_van_conf$perspective = factor(carsac_van_conf$perspective,
                                 levels(carsac_van_conf$perspective)[c(2, 1, 3)])
 
