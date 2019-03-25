@@ -15,6 +15,7 @@ require(fifer)
 require(multcomp)
 require(vcdExtra)
 require(catspec)
+require(brms)
 
 carsac.data <- read.csv("vr_data/selfSacCSV.csv")
 
