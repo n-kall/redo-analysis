@@ -98,10 +98,10 @@ cl <- makeCluster(rep("localhost", nc))
 carsac_glmm_base <- mixed(decision ~ perspective * motorist * trial +
                               (1 | participant.ID),
                           method = "PB",
-                          family = "binomial", data = carsac.sub,
+                          family = "binomial", data = carsac.sub, all_fit = TRUE,
                           args_test = list(nsim = 1000, cl = cl), cl = cl,
                           control = glmerControl(optimizer = "bobyqa",
-                                                 optCtrl = list(maxfun = 2e5)))
+                                                 optCtrl = list(maxfun = 2e7)))
 
 carsac_glmm_cov <- mixed(decision ~ perspective * motorist * trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
@@ -110,7 +110,7 @@ carsac_glmm_cov <- mixed(decision ~ perspective * motorist * trial + gender + ag
                     family = "binomial", data = carsac.sub,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
-                                           optCtrl = list(maxfun = 2e5)))
+                                           optCtrl = list(maxfun = 2e7)))
 
 ## carsac_glmm_identify_base <- mixed(decision ~ perceivedIden + motorist +
 ##                         perceivedIden:motorist +

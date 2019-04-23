@@ -4,7 +4,7 @@ library(emmeans)
 library(cowplot)
 library(ggpubr)
 
-load("vr_carsac_glmm_redo_bootstrap.RData")
+load("vr_carsac_glmm_redo_trialint_bootstrap.RData")
 load("vr_child_glmm_redo_bootstrap.RData")
 load("vr_sidewalk_glmm_redo_bootstrap.RData")
 
@@ -17,7 +17,7 @@ child_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial +
                     data = child.sub,
                      cl = cl)
 
-carsac_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial +
+carsac_lmm_cov <- mixed(confidence ~ perspective * motorist * decision * trial +
                         gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
