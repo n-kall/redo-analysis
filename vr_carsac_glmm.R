@@ -95,19 +95,19 @@ carsac.sub$age_c <- scale(carsac.sub$age)
 (nc <- detectCores())
 cl <- makeCluster(rep("localhost", nc))
 
-carsac_glmm_base <- mixed(decision ~ perspective * motorist * trial +
-                              (1 | participant.ID),
-                          method = "PB",
-                          family = "binomial", data = carsac.sub, all_fit = TRUE,
-                          args_test = list(nsim = 1000, cl = cl), cl = cl,
-                          control = glmerControl(optimizer = "bobyqa",
-                                                 optCtrl = list(maxfun = 2e7)))
+## carsac_glmm_base <- mixed(decision ~ perspective * motorist * trial +
+##                               (1 | participant.ID),
+##                           method = "PB",
+##                           family = "binomial", data = carsac.sub, all_fit = TRUE,
+##                           args_test = list(nsim = 1000, cl = cl), cl = cl,
+##                           control = glmerControl(optimizer = "bobyqa",
+##                                                  optCtrl = list(maxfun = 2e7)))
 
 carsac_glmm_cov <- mixed(decision ~ perspective * motorist * trial + gender + age_c + opinAV +
                         education +  drivExperience + visImpairment +
                         (1 | participant.ID),
                     method = "PB", # change to PB for final
-                    family = "binomial", data = carsac.sub,
+                    family = "binomial", data = carsac.sub, all_fit = TRUE,
                     args_test = list(nsim = 1000, cl = cl), cl = cl,
                     control = glmerControl(optimizer = "bobyqa",
                                            optCtrl = list(maxfun = 2e7)))
@@ -154,4 +154,4 @@ stopCluster(cl)
 ##                                type = 'response')
 
 
-save.image(file = "vr_carsac_glmm_redo_trialint_bootstrap.RData")
+save.image(file = "vr_carsac_glmm_redo_trialint_bootstrap_cov.RData")
