@@ -4,7 +4,7 @@ library(emmeans)
 library(cowplot)
 library(ggpubr)
 
-load("vr_carsac_glmm_redo_trialint_bootstrap.RData")
+load("vr_carsac_glmm_redo_trialint_bootstrap_cov.RData")
 load("vr_child_glmm_redo_bootstrap.RData")
 load("vr_sidewalk_glmm_redo_bootstrap.RData")
 
@@ -178,7 +178,7 @@ carsac_cliff_conf <- subset(carsac_conf, carsac_conf$trial == "mountain")
 carsac_cliff_conf$prob <- carsac_cliff_dec$prob
 
 carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "selfSacrifice",
-                                       -1 * (1-prob), prob))
+                                       (1-prob), -1 * prob))
 
 
 carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
@@ -236,7 +236,7 @@ carsac_van_conf <- subset(carsac_conf, carsac_conf$trial == "cityR")
 carsac_van_conf$prob <- carsac_van_dec$prob
 
 carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacrifice",
-                                       -1 * (1-prob), prob))
+                                       (1-prob), -1 * prob))
 
 
 carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
