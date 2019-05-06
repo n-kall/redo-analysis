@@ -312,4 +312,12 @@ carsac_glmm_followup <- emmeans(carsac_glmm_cov, pairwise ~ trial, type = "respo
 
 carsac_lmm_trial_followup <- emmeans(carsac_lmm_cov, pairwise ~ trial)
 
-carsac_lmm_decision_followup <- emmeans(carsac_lmm_cov, pairwise ~ decision)
+carsac_lmm_decision_trial_followup <- emmeans( carsac_lmm_cov, pairwise ~trial | decision , at = list(perspective = "Passenger", "Pedestrian"))
+
+
+carsac.data %>% 
+  as_tibble() %>% 
+  filter(trial == "mountain") %>%
+  pull(decision) %>% 
+  summary() %>% 
+  binom.test()
