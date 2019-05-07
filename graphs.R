@@ -36,9 +36,9 @@ sidewalk_lmm_cov <- mixed(confidence ~ perspective * motorist * decision + trial
 
 
 
-sidewalk_dec <- as_tibble(emmeans(sidewalk_glmm_cov, ~ perspective|motorist, type = "response"))
+sidewalk_dec <- as_tibble(emmeans(sidewalk_glmm_cov, ~ perspective, type = "response"))
 
-sidewalk_conf <- as_tibble(emmeans(sidewalk_lmm_cov, ~ perspective|motorist|decision, type = "response"))
+sidewalk_conf <- as_tibble(emmeans(sidewalk_lmm_cov, ~ perspective|decision, type = "response"))
 
 
 motorist_names <- c("self-driving" = "Self-driving car",
@@ -50,8 +50,8 @@ sidewalk_conf  <-  mutate(sidewalk_conf, prob = ifelse(decision == "hitSidewalk"
                                        -1 * (1-prob), prob))
 
 
-sidewalk_conf$motorist <- factor(sidewalk_conf$motorist, 
-                                 levels(sidewalk_conf$motorist)[c(2,1)])
+#sidewalk_conf$motorist <- factor(sidewalk_conf$motorist, 
+ #                                levels(sidewalk_conf$motorist)[c(2,1)])
 
 sidewalk_conf$perspective = factor(sidewalk_conf$perspective,
                                    levels(sidewalk_conf$perspective)[c(2, 1, 3, 4)])
@@ -67,7 +67,7 @@ sidewalk_plot <- sidewalk_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
+    #facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(sidewalk_conf$perspective)),
@@ -95,9 +95,9 @@ sidewalk_plot <- sidewalk_conf %>%
 
 
 
-child_dec <- as_tibble(emmeans(child_glmm_cov, ~ perspective|motorist, type = "response"))
+child_dec <- as_tibble(emmeans(child_glmm_cov, ~ perspective, type = "response"))
 
-child_conf <- as_tibble(emmeans(child_lmm_cov, ~ perspective|motorist|decision, type = "response"))
+child_conf <- as_tibble(emmeans(child_lmm_cov, ~ perspective|decision, type = "response"))
 
 child_conf$prob <- child_dec$prob
 
@@ -107,8 +107,8 @@ child_conf  <-  mutate(child_conf, prob = ifelse(decision == "hitChildren",
 child_conf$decision <- factor(child_conf$decision,
                               levels = rev(levels(child_conf$decision)))
 
-child_conf$motorist <- factor(child_conf$motorist, 
-                                 levels(child_conf$motorist)[c(2,1)])
+#child_conf$motorist <- factor(child_conf$motorist, 
+ #                                levels(child_conf$motorist)[c(2,1)])
 
 
 child_conf$perspective = factor(child_conf$perspective,
@@ -125,7 +125,7 @@ child_plot  <- child_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
+    #facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(child_conf$perspective)),
@@ -162,11 +162,11 @@ child_sidewalk.plot <- ggarrange(child_plot, sidewalk_plot,
 
 
 carsac_dec <- as_tibble(emmeans(carsac_glmm_cov,
-                                ~ perspective|motorist|trial,
+                                ~ perspective|trial,
                                 type = "response"))
 
 
-carsac_conf <- as_tibble(emmeans(carsac_lmm_cov, ~ perspective|motorist|decision|trial,
+carsac_conf <- as_tibble(emmeans(carsac_lmm_cov, ~ perspective|decision|trial,
                                 type = "response"))
 
 
@@ -183,8 +183,8 @@ carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "self
 
 carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
 
-carsac_cliff_conf$motorist <- factor(carsac_cliff_conf$motorist, 
-                                 levels(carsac_cliff_conf$motorist)[c(2,1)])
+#carsac_cliff_conf$motorist <- factor(carsac_cliff_conf$motorist, 
+ #                                levels(carsac_cliff_conf$motorist)[c(2,1)])
 
 
 carsac_cliff_conf$perspective = factor(carsac_cliff_conf$perspective,
@@ -202,7 +202,7 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
+    #facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_cliff_conf$perspective)),
@@ -241,8 +241,8 @@ carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacr
 
 carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
 
-carsac_van_conf$motorist <- factor(carsac_van_conf$motorist, 
-                                     levels(carsac_van_conf$motorist)[c(2,1)])
+#carsac_van_conf$motorist <- factor(carsac_van_conf$motorist, 
+ #                                    levels(carsac_van_conf$motorist)[c(2,1)])
 
 carsac_van_conf$perspective = factor(carsac_van_conf$perspective,
                                 levels(carsac_van_conf$perspective)[c(2, 1, 3)])
@@ -258,7 +258,7 @@ carsac_van_plot  <- carsac_van_conf %>%
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
     ylim(-130, 130) +
-    facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
+   # facet_grid(motorist ~ .,  labeller = as_labeller(motorist_names)) +
     coord_flip() +
         scale_x_discrete(name = "Perspective",
                      limits = rev(levels(carsac_van_conf$perspective)),
@@ -297,7 +297,7 @@ vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
 
 # save as pdf
-pdf('vr_combined_pred_plot.pdf', width = 12, height = 12)
+pdf('vr_combined_pred_plot.pdf', width = 12.5, height = 10)
 vr_combined_pred.plot
 dev.off()
 
