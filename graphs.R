@@ -317,12 +317,28 @@ carsac_lmm_decision_trial_followup <- emmeans( carsac_lmm_cov, pairwise ~trial |
 
 # overal predictions
 
-mean_child <- 1 - mean(predict(child_glmm_cov$full_model,
+mean_child_judge <- 1 - mean(predict(child_glmm_cov$full_model,
                                re.form = NA,
                                type = "response"))
 
-mean_sidewalk <- 1 - mean(predict(sidewalk_glmm_cov$full_model,
+mean_sidewalk_judge <- 1 - mean(predict(sidewalk_glmm_cov$full_model,
                                   re.form = NA,
                                   type = "response"))
 
-mean_carsac <- emmeans(carsac_glmm_cov, ~ trial, type = "response")
+mean_carsac_judge <- emmeans(carsac_glmm_cov, ~ trial, type = "response")
+
+
+mean_child_conf <- mean(predict(child_lmm_cov$full_model,
+                                     re.form = NA,
+                                     type = "response"))
+
+mean_sidewalk_conf <- mean(predict(sidewalk_lmm_cov$full_model,
+                                        re.form = NA,
+                                        type = "response"))
+
+mean_carsac_conf <- emmeans(carsac_lmm_cov, ~ trial, type = "response")
+
+
+
+
+
