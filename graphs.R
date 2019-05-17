@@ -315,9 +315,14 @@ carsac_lmm_trial_followup <- emmeans(carsac_lmm_cov, pairwise ~ trial)
 carsac_lmm_decision_trial_followup <- emmeans( carsac_lmm_cov, pairwise ~trial | decision , at = list(perspective = "Passenger", "Pedestrian"))
 
 
-carsac.data %>% 
-  as_tibble() %>% 
-  filter(trial == "mountain") %>%
-  pull(decision) %>% 
-  summary() %>% 
-  binom.test()
+# overal predictions
+
+mean_child <- 1 - mean(predict(child_glmm_cov$full_model,
+                               re.form = NA,
+                               type = "response"))
+
+mean_sidewalk <- 1 - mean(predict(sidewalk_glmm_cov$full_model,
+                                  re.form = NA,
+                                  type = "response"))
+
+mean_carsac <- emmeans(carsac_glmm_cov, ~ trial, type = "response")
