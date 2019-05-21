@@ -62,7 +62,7 @@ sidewalk_plot <- sidewalk_conf %>%
            lower.CL = ifelse(decision == "hitSidewalk", -1 * lower.CL, lower.CL),
            upper.CL = ifelse(decision == "hitSidewalk", -1 * upper.CL, upper.CL)) %>%
     ggplot(mapping = aes(x = perspective)) +
-    geom_bar(aes(y = prob * 100, fill = decision), stat = "identity", color = "black") +
+    geom_bar(aes(y = prob * 100, fill = decision), width = 0.5, stat = "identity", color = "black") +
     geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL, width = 0.1)) +
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
@@ -75,17 +75,17 @@ sidewalk_plot <- sidewalk_conf %>%
                                 "Pedestrian\non sidewalk",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
-                              name = "Predicted probability of decision",
+                              name = "Predicted probability of judgement",
         labels = c("Endanger fewer pedestrians (on sidewalk)",
                    "Endanger more pedestrians (on road)", "", "")) +
-    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability of decision",
+                           ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in decision (95% CI)",
+        name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger more pedestrians (on road)",
                    "Endanger fewer pedestrians (on sidewalk)")) +
         guides(fill = guide_legend(order = 1),
@@ -120,7 +120,7 @@ child_plot  <- child_conf %>%
            lower.CL = ifelse(decision == "hitChildren", -1 * lower.CL, lower.CL),
            upper.CL = ifelse(decision == "hitChildren", -1 * upper.CL, upper.CL)) %>%
     ggplot(mapping = aes(x = perspective)) +
-    geom_bar(aes(y = prob * 100, fill = decision), stat = "identity", color = "black") +
+    geom_bar(aes(y = prob * 100, fill = decision), width = 0.5, stat = "identity", color = "black") +
     geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL, width = 0.1)) +
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
@@ -136,14 +136,14 @@ child_plot  <- child_conf %>%
                               name = "Predicted probability of decision",
                       labels = c("Endanger fewer pedestrians (children)",
                                  "Endanger more pedestrians (adults)")) +
-    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability of decision",
+                           ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                                       labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in decision (95% CI)",
+        name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger fewer pedestrians (children)",
                    "Endanger more pedestrians (adults)")) +
         guides(fill = guide_legend(order = 1),
@@ -197,7 +197,7 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
            lower.CL = ifelse(decision == "selfSacrifice", -1 * lower.CL, lower.CL),
            upper.CL = ifelse(decision == "selfSacrifice", -1 * upper.CL, upper.CL)) %>%
     ggplot(mapping = aes(x = perspective)) +
-    geom_bar(aes(y = prob * 100, fill = decision), stat = "identity", color = "black") +
+    geom_bar(aes(y = prob * 100, fill = decision), width = 0.5, stat = "identity", color = "black") +
     geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL, width = 0.1)) +
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
@@ -209,17 +209,17 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
                      labels = c("Pedestrian\non road",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
-                              name = "Predicted probability of decision",
+                              name = "Predicted probability of judgement",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
-    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability of decision",
+                           ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in decision (95% CI)",
+        name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
@@ -253,7 +253,7 @@ carsac_van_plot  <- carsac_van_conf %>%
            lower.CL = ifelse(decision == "selfSacrifice", -1 * lower.CL, lower.CL),
            upper.CL = ifelse(decision == "selfSacrifice", -1 * upper.CL, upper.CL)) %>%
     ggplot(mapping = aes(x = perspective)) +
-    geom_bar(aes(y = prob * 100, fill = decision), stat = "identity", color = "black") +
+    geom_bar(aes(y = prob * 100, fill = decision), width = 0.5, stat = "identity", color = "black") +
     geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL, width = 0.1)) +
     geom_point(mapping = aes(y = emmean,
                              shape = decision), size = 2.5, color = "black", fill = "white") +
@@ -265,17 +265,17 @@ carsac_van_plot  <- carsac_van_conf %>%
                      labels = c("Pedestrian\non road",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
-                              name = "Predicted probability of decision",
+                              name = "Predicted probability of judgement",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
-    scale_y_continuous(name = "Confidence in decision", limits = c(-112,112),
+    scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
-                           ~., name = "Probability of decision",
+                           ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in decision (95% CI)",
+        name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
@@ -297,7 +297,7 @@ vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
 
 # save as pdf
-pdf('vr_combined_pred_plot.pdf', width = 12.5, height = 10)
+pdf('vr_combined_pred_plot.pdf', width = 13, height = 13)
 vr_combined_pred.plot
 dev.off()
 
@@ -336,7 +336,8 @@ mean_sidewalk_conf <- mean(predict(sidewalk_lmm_cov$full_model,
                                         re.form = NA,
                                         type = "response"))
 
-mean_carsac_conf <- emmeans(carsac_lmm_cov, ~ trial, type = "response")
+
+mean_carsac_conf <- emmeans( carsac_lmm_cov, ~ trial, at = list(perspective = "Passenger", "Pedestrian"))
 
 
 
