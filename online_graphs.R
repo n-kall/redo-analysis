@@ -15,7 +15,7 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
            type = "response") +
   facet_grid(motorist ~ perspective, labeller = as_labeller(motorist_names)) +
   xlab("Lives-at-risk") +
-  ylab("Probability of preferring swerve") +
+  ylab("Probability of preferring 'swerve'") +
   ylim(0, 1) + 
   geom_bar(stat="identity", aes(fill=perspective), color = "black") +
   #geom_line(aes(group=perspective)) +
@@ -43,7 +43,7 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
       type = "response") +
   facet_grid(motorist ~ scenario ~ perspective, labeller = as_labeller(motorist_names)) +
   xlab("Lives-at-risk") +
-  ylab("Probability of preferring swerve") +
+  ylab("Probability of preferring 'swerve'") +
   ylim(0, 1) + 
   geom_bar(stat="identity", aes(fill=perspective), color = "black") +
   #geom_line(aes(group=perspective)) +
@@ -55,8 +55,8 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
                                "#74C476"),
                     labels = c("Car occupant",
                                "Observer",
-                               "Pedestrian (forward)",
-                               "Pedestrian (side)")) +
+                               "Pedestrian (in front)",
+                               "Pedestrian (to side)")) +
   theme(strip.text.x = element_blank(),
         panel.grid = element_blank(),
         axis.text = element_text(size = 8),
@@ -66,8 +66,8 @@ b$layers[[1]] <- NULL
 b$layers[[1]] <- NULL
 b
 
-ggsave("online_pedped.pdf", plot = b, height = 10,
-       width = 13)
+ggsave("online_pedped.pdf", plot = b, height = 10*0.75,
+       width = 13*0.75)
 
 
 

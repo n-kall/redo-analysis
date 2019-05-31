@@ -75,7 +75,7 @@ sidewalk_plot <- sidewalk_conf %>%
                                 "Pedestrian\non sidewalk",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
-                              name = "Predicted probability of judgement",
+                              name = "Predicted probability\nof judgement",
         labels = c("Endanger fewer pedestrians (on sidewalk)",
                    "Endanger more pedestrians (on road)", "", "")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
@@ -85,7 +85,7 @@ sidewalk_plot <- sidewalk_conf %>%
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in judgement (95% CI)",
+        name = "Predicted mean confidence\nin judgement (95% CI)",
         labels = c("Endanger more pedestrians (on road)",
                    "Endanger fewer pedestrians (on sidewalk)")) +
         guides(fill = guide_legend(order = 1),
@@ -133,7 +133,7 @@ child_plot  <- child_conf %>%
                                 "Pedestrian\n with children",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
-                              name = "Predicted probability of judgement",
+                              name = "Predicted probability\nof judgement",
                       labels = c("Endanger fewer pedestrians (children)",
                                  "Endanger more pedestrians (adults)")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
@@ -143,7 +143,7 @@ child_plot  <- child_conf %>%
                                       labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(15, 22),
-        name = "Predicted mean confidence in judgement (95% CI)",
+        name = "Predicted mean confidence\nin judgement (95% CI)",
         labels = c("Endanger fewer pedestrians (children)",
                    "Endanger more pedestrians (adults)")) +
         guides(fill = guide_legend(order = 1),
@@ -209,7 +209,7 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
                      labels = c("Pedestrian\non road",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
-                              name = "Predicted probability of judgement",
+                              name = "Predicted probability\nof judgement",
         labels = c("Endanger car occupants",
                    "Endanger pedestrians on road")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
@@ -219,7 +219,7 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(22, 15),
-        name = "Predicted mean confidence in judgement (95% CI)",
+        name = "Predicted mean confidence\nin judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
@@ -265,7 +265,7 @@ carsac_van_plot  <- carsac_van_conf %>%
                      labels = c("Pedestrian\non road",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
-                              name = "Predicted probability of judgement",
+                              name = "Predicted probability\nof judgement",
         labels = c("Endanger car occupants",
                    "Endanger pedestrians on road")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
@@ -275,7 +275,7 @@ carsac_van_plot  <- carsac_van_conf %>%
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
         values = c(22, 15),
-        name = "Predicted mean confidence in judgement (95% CI)",
+        name = "Predicted mean confidence\nin judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
@@ -297,7 +297,7 @@ vr_combined_pred.plot <- ggarrange(child_sidewalk.plot, carsac_joint.plot)
 
 
 # save as pdf
-pdf('vr_combined_pred_plot.pdf', width = 13, height = 13)
+pdf('vr_combined_pred_plot.pdf', width = 11, height = 11.5)
 vr_combined_pred.plot
 dev.off()
 
