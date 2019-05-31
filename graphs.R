@@ -133,7 +133,7 @@ child_plot  <- child_conf %>%
                                 "Pedestrian\n with children",
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#FB6A4A", "#A50F15"),
-                              name = "Predicted probability of decision",
+                              name = "Predicted probability of judgement",
                       labels = c("Endanger fewer pedestrians (children)",
                                  "Endanger more pedestrians (adults)")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
@@ -181,7 +181,7 @@ carsac_cliff_conf  <-  mutate(carsac_cliff_conf, prob = ifelse(decision == "self
                                        (1-prob), -1 * prob))
 
 
-carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
+#carsac_cliff_conf$decision <- factor(carsac_cliff_conf$decision, levels = rev(levels(carsac_cliff_conf$decision)))
 
 #carsac_cliff_conf$motorist <- factor(carsac_cliff_conf$motorist, 
  #                                levels(carsac_cliff_conf$motorist)[c(2,1)])
@@ -210,20 +210,20 @@ carsac_cliff_plot  <- carsac_cliff_conf %>%
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of judgement",
-        labels = c("Endanger pedestrians on road",
-                   "Endanger car occupants")) +
+        labels = c("Endanger car occupants",
+                   "Endanger pedestrians on road")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
                            ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
-        values = c(15, 22),
+        values = c(22, 15),
         name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
-           shape = guide_legend(order = 2)) +
+           shape = guide_legend(order = 2, reverse = TRUE)) +
     theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
                          legend.direction = "vertical")
 
@@ -239,7 +239,7 @@ carsac_van_conf  <-  mutate(carsac_van_conf, prob = ifelse(decision == "selfSacr
                                        (1-prob), -1 * prob))
 
 
-carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
+#carsac_van_conf$decision <- factor(carsac_van_conf$decision, levels = rev(levels(carsac_van_conf$decision)))
 
 #carsac_van_conf$motorist <- factor(carsac_van_conf$motorist, 
  #                                    levels(carsac_van_conf$motorist)[c(2,1)])
@@ -266,20 +266,20 @@ carsac_van_plot  <- carsac_van_conf %>%
                                 "Observer", "Passenger")) +
     scale_fill_manual(        values = c("#b2abd2", "#fdb863"),
                               name = "Predicted probability of judgement",
-        labels = c("Endanger pedestrians on road",
-                   "Endanger car occupants")) +
+        labels = c("Endanger car occupants",
+                   "Endanger pedestrians on road")) +
     scale_y_continuous(name = "Confidence in judgement", limits = c(-112,112),
                        sec.axis = sec_axis(
                            ~., name = "Probability of judgement",
                            labels = c("1.0", "0.5", "0", "0.5", "1.0")),
                        labels = c(100, 50, 0, 50, 100)) +
         scale_shape_manual(
-        values = c(15, 22),
+        values = c(22, 15),
         name = "Predicted mean confidence in judgement (95% CI)",
         labels = c("Endanger pedestrians on road",
                    "Endanger car occupants")) +
         guides(fill = guide_legend(order = 1),
-           shape = guide_legend(order = 2)) +
+           shape = guide_legend(order = 2, reverse = TRUE)) +
     theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
                          legend.direction = "vertical") + theme(legend.position="none")
 

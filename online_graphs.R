@@ -21,9 +21,9 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
   #geom_line(aes(group=perspective)) +
   #geom_point(size = 1) +
   scale_fill_manual(name = "Perspective",
-                    values = c("#E41A1C",
-                               "#377EB8",
-                               "#FF7F00"),
+                    values = c("#FB6A4A",
+                               "#6BAED6",
+                               "#FD8D3C"),
                     labels = c("Car occupant",
                                "Observer",
                                "Pedestrian")) +
@@ -49,10 +49,10 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
   #geom_line(aes(group=perspective)) +
   #geom_point(size = 1) +
   scale_fill_manual(name = "Perspective",
-                    values = c("#E41A1C",
-                               "#377EB8",
-                               "#FF7F00",
-                               "#4DAF4A"),
+                    values = c("#FB6A4A",
+                               "#6BAED6",
+                               "#FD8D3C",
+                               "#74C476"),
                     labels = c("Car occupant",
                                "Observer",
                                "Pedestrian (forward)",
