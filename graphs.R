@@ -86,8 +86,8 @@ sidewalk_plot <- sidewalk_conf %>%
         scale_shape_manual(
         values = c(15, 22),
         name = "Predicted mean confidence\nin judgement (95% CI)",
-        labels = c("Endanger more pedestrians (on road)",
-                   "Endanger fewer pedestrians (on sidewalk)")) +
+        labels = c("Endanger fewer pedestrians (on sidewalk)",
+                   "Endanger more pedestrians (on road)")) +
         guides(fill = guide_legend(order = 1),
            shape = guide_legend(order = 2)) +
     theme_cowplot(font_size = 10) + theme(legend.position = "bottom",
@@ -313,6 +313,8 @@ carsac_glmm_followup <- emmeans(carsac_glmm_cov, pairwise ~ trial, type = "respo
 carsac_lmm_trial_followup <- emmeans(carsac_lmm_cov, pairwise ~ trial)
 
 carsac_lmm_decision_trial_followup <- emmeans( carsac_lmm_cov, pairwise ~trial | decision , at = list(perspective = "Passenger", "Pedestrian"))
+
+sidewalk_glmm_followup <- emmeans(sidewalk_glmm_cov, pairwise ~ gender, type = "response")
 
 
 # overal predictions
