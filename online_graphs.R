@@ -8,8 +8,8 @@ load("online_study_redo2.RData")
 
 motorist_names <- c("self-driving" = "Self-driving car",
                     "human" = "Human driver",
-                    "road" = "Road",
-                    "sidewalk" = "Sidewalk",
+                    "road" = "Swerve to road",
+                    "sidewalk" = "Swerve to sidewalk",
                     "pedestrian" = "Pedestrian",
                     "car" = "Car occupant",
                     "observer" = "Observer",
