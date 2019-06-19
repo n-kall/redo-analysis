@@ -38,7 +38,7 @@ a$layers[[1]] <- NULL
 a$layers[[1]] <- NULL
 a
 
-ggsave("online_carped.pdf", plot = a, width = 7, height = 4)
+ggsave("online_carped.pdf", plot = a, width = 6, height = 4)
 
 
 b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
@@ -65,7 +65,7 @@ b$layers[[1]] <- NULL
 b
 
 ggsave("online_pedped.pdf", plot = b, height = 10*0.75,
-       width = 13*0.75)
+       width = 11*0.75)
 
 
 
