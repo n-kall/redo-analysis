@@ -30,7 +30,9 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
                                "#6BAED6",
                                "#FD8D3C")) +
   theme(panel.grid = element_blank(),
-        axis.text = element_text(size = 8),
+        strip.text.x = element_text(size = 12),
+        strip.text.y = element_text(size = 12),
+        axis.text = element_text(size = 10),
         axis.title = element_text(size = 12)) +
   guides(fill = FALSE)
 
@@ -56,7 +58,9 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
                                "#FD8D3C",
                                "#74C476")) +
   theme(panel.grid = element_blank(),
-        axis.text = element_text(size = 8),
+        strip.text.x = element_text(size = 12),
+        strip.text.y = element_text(size = 12),
+        axis.text = element_text(size = 10),
         axis.title = element_text(size = 12)) +
   guides(fill = FALSE)
 
