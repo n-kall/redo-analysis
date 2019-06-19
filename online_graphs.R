@@ -9,7 +9,12 @@ load("online_study_redo2.RData")
 motorist_names <- c("self-driving" = "Self-driving car",
                     "human" = "Human driver",
                     "road" = "Road",
-                    "sidewalk" = "Sidewalk")
+                    "sidewalk" = "Sidewalk",
+                    "pedestrian" = "Pedestrian",
+                    "car" = "Car occupant",
+                    "observer" = "Observer",
+                    "pedestrian_fwd" = "Pedstrian (in front)",
+                    "pedestrian_side" = "Pedestrian (to side)")
 
 a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
            type = "response") +
@@ -23,14 +28,11 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
   scale_fill_manual(name = "Perspective",
                     values = c("#FB6A4A",
                                "#6BAED6",
-                               "#FD8D3C"),
-                    labels = c("Car occupant",
-                               "Observer",
-                               "Pedestrian")) +
-  theme(strip.text.x = element_blank(),
-        panel.grid = element_blank(),
+                               "#FD8D3C")) +
+  theme(panel.grid = element_blank(),
         axis.text = element_text(size = 8),
-        axis.title = element_text(size = 12))
+        axis.title = element_text(size = 12)) +
+  guides(fill = FALSE)
 
 a$layers[[1]] <- NULL
 a$layers[[1]] <- NULL
@@ -52,15 +54,11 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
                     values = c("#FB6A4A",
                                "#6BAED6",
                                "#FD8D3C",
-                               "#74C476"),
-                    labels = c("Car occupant",
-                               "Observer",
-                               "Pedestrian (in front)",
-                               "Pedestrian (to side)")) +
-  theme(strip.text.x = element_blank(),
-        panel.grid = element_blank(),
+                               "#74C476")) +
+  theme(panel.grid = element_blank(),
         axis.text = element_text(size = 8),
-        axis.title = element_text(size = 12)) 
+        axis.title = element_text(size = 12)) +
+  guides(fill = FALSE)
 
 b$layers[[1]] <- NULL
 b$layers[[1]] <- NULL
