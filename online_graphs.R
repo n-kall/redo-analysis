@@ -8,8 +8,8 @@ load("online_study_redo2.RData")
 
 motorist_names <- c("self-driving" = "Self-driving car",
                     "human" = "Human driver",
-                    "road" = "Swerve to road",
-                    "sidewalk" = "Swerve to sidewalk",
+                    "road" = "Connecting road",
+                    "sidewalk" = "Sidewalk",
                     "pedestrian" = "Pedestrian",
                     "car" = "Car occupant",
                     "observer" = "Observer",
@@ -30,17 +30,18 @@ a <- emmip(carped_cov_fac_glmm, ~ ratio_f | perspective | motorist,
                                "#6BAED6",
                                "#FD8D3C")) +
   theme(panel.grid = element_blank(),
+        strip.background = element_blank(),
         strip.text.x = element_text(size = 12),
         strip.text.y = element_text(size = 12),
         axis.text = element_text(size = 10),
         axis.title = element_text(size = 12)) +
-  guides(fill = FALSE)
+  guides(fill = FALSE) + theme_cowplot()
 
 a$layers[[1]] <- NULL
 a$layers[[1]] <- NULL
 a
 
-ggsave("online_carped.pdf", plot = a, width = 6, height = 4)
+ggsave("study2-carped-graph.png", dpi = 300, plot = a, width = 6, height = 4)
 
 
 b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
@@ -58,18 +59,19 @@ b <- emmip(pedped_cov_fac_glmm, ~ ratio_f | perspective | motorist | scenario,
                                "#FD8D3C",
                                "#74C476")) +
   theme(panel.grid = element_blank(),
+        strip.background = element_blank(),
         strip.text.x = element_text(size = 12),
         strip.text.y = element_text(size = 12),
         axis.text = element_text(size = 10),
         axis.title = element_text(size = 12)) +
-  guides(fill = FALSE)
+  guides(fill = FALSE) + theme_cowplot()
 
 b$layers[[1]] <- NULL
 b$layers[[1]] <- NULL
 b
 
-ggsave("online_pedped.pdf", plot = b, height = 10*0.75,
-       width = 11*0.75)
+ggsave("study2-pedped-graph.png", plot = b, height = 10*0.75,
+       width = 11*0.75, dpi = 300)
 
 
 

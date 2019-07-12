@@ -55,7 +55,9 @@ children_vs_adults_vr <- as_tibble(child.sub) %>%
          visual_acuity = fct_recode(visual_acuity, "no impairment" = "Nein",
                                     "corrected vision" = "Ja, korrigiert durch Brille/ Kontaktlinsen",
                                     "uncorrected vision" = "Ja"),
-         participant = vr_participants_anon)
+         participant = vr_participants_anon) %>% 
+  add_column("scenario" = "children_vs_adults",.before = "trial")
+
 
 
 sidewalk_vs_road_vr <- as_tibble(sidewalk.sub) %>%
@@ -102,7 +104,9 @@ sidewalk_vs_road_vr <- as_tibble(sidewalk.sub) %>%
          visual_acuity = fct_recode(visual_acuity, "no impairment" = "Nein",
                                     "corrected vision" = "Ja, korrigiert durch Brille/ Kontaktlinsen",
                                     "uncorrected vision" = "Ja"),
-                  participant = vr_participants_anon)
+                  participant = vr_participants_anon) %>% 
+    add_column("scenario" = "sidewalk_vs_road",.before = "trial")
+
 
 
 
@@ -133,7 +137,7 @@ car_vs_pedestrians_vr <- as_tibble(carsac.sub) %>%
                                      passenger = "Passenger"),
          judgement = fct_recode(judgement,
                                 endanger_pedestrians = "hitPedestrians",
-                                endanger_car_occupants = "selfSacrifice"),
+                                endanger_occupants = "selfSacrifice"),
          trial = fct_recode(trial,
                             parked_van = "cityR",
                             cliff = "mountain"),
@@ -150,7 +154,11 @@ car_vs_pedestrians_vr <- as_tibble(carsac.sub) %>%
          visual_acuity = fct_recode(visual_acuity, "no impairment" = "Nein",
                                     "corrected vision" = "Ja, korrigiert durch Brille/ Kontaktlinsen",
                                     "uncorrected vision" = "Ja"),
-                  participant = vr_participants_anon)
+                  participant = vr_participants_anon) %>% 
+  add_column("scenario" = "car_occupants_vs_pedestrians",.before = "trial")
+
+
+study1 <- bind_rows(children_vs_adults_vr, sidewalk_vs_road_vr, car_vs_pedestrians_vr)
 
 # Online study
 
@@ -170,12 +178,15 @@ pedestrians_vs_pedestrians_online <- pedped.sub %>%
                                car_occupant = "car",
                                pedestrian = "ped"),
     perspective = fct_recode(perspective,
-                             car_occupant = "car"),
+                             car_occupant = "car",
+                             pedestrian_front = "pedestrian_fwd"),
     driving_experience = fct_recode(driving_experience,
                                     none = "0",
                                     "6 to 10 years" = "6-10",
                                     "less than 5 years" = "5",
-                                    "more than 10 years" = "10+"))
+                                    "more than 10 years" = "10+")) %>%
+  add_column("scenario" = "pedestrians_vs_single_pedestrian", .before = "lives_at_risk")
+
 
 car_occupants_vs_pedestrians_online <- carped.sub %>%
   as_tibble() %>%
@@ -190,19 +201,21 @@ car_occupants_vs_pedestrians_online <- carped.sub %>%
                                 car_occupant = "car",
                                 pedestrian = "ped"),
     perspective = fct_recode(perspective,
-                             car_occupant = "car"),
+                             car_occupant = "car",
+                             pedestrian_fwd = "pedestrian"),
     driving_experience = fct_recode(driving_experience,
                                     none = "0",
                                     "6 to 10 years" = "6-10",
                                     "less than 5 years" = "5",
-                                    "more than 10 years" = "10+"))
+                                    "more than 10 years" = "10+")) %>% 
+  add_column("scenario" = "car_occupants_vs_pedestrians", .before = "lives_at_risk")
 
-                                        # anonymize
+
+study2 <- bind_rows(pedestrians_vs_pedestrians_online, car_occupants_vs_pedestrians_online)
 
 
-write_csv(children_vs_adults_vr, "Study1a.csv")
-write_csv(sidewalk_vs_road_vr, "Study1b.csv")
-write_csv(car_vs_pedestrians_vr, "Study1c.csv")
 
-write_csv(pedestrians_vs_pedestrians_online, "Study2a.csv")
-write_csv(car_occupants_vs_pedestrians_online, "Study2b.csv")
+write_csv(study1, "study1.csv")
+write_csv(study2, "study2.csv")
+
+
